@@ -1,19 +1,19 @@
 import { useQuery } from "@tanstack/react-query"
 
-export interface Data {
+export interface Thing {
 	title: string;
 	description: string;
 	imagePath: string;
 }
 
-function useData() {
+function useThings() {
   return useQuery({
-    queryKey: ['data'],
-    queryFn: async (): Promise<Array<Data>> => {
+    queryKey: ['thing'],
+    queryFn: async (): Promise<Array<Thing>> => {
       const response = await fetch('http://localhost:3000')
       return await response.json()
     },
   })
 }
 
-export { useData }
+export { useThings }
