@@ -9,7 +9,9 @@ const data = require('./data.json')
 app.use(cors())
 
 app.get('/', (req, res) => {
-  res.send(data)
+  setTimeout(() => {
+    res.send(data.slice(0, 3))
+  }, 3000)
 })
 
 app.listen(port, () => {
