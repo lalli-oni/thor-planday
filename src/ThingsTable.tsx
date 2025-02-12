@@ -5,11 +5,12 @@ import { Thing } from "./api";
 export interface ThingsTableProps {
   data?: Array<Thing>;
   isFetching: boolean;
+  error: Error | null;
 }
 
 
 function ThingsTable(props: ThingsTableProps) {
-  const { data, isFetching } = props
+  const { data, isFetching, error } = props
   const thingsData = data !== undefined ? data : []
   const columnHelper = createColumnHelper<Thing>()
 
@@ -31,36 +32,39 @@ function ThingsTable(props: ThingsTableProps) {
   })
 
   return (
-    <table>
-      <thead>
-        {table.getHeaderGroups().map(headerGroup => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map(header => (
-              <th key={header.id}>
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody>
-        {table.getRowModel().rows.map(row => (
-          <tr key={row.id}>
-            {row.getVisibleCells().map(cell => (
-              <td key={cell.id}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
+    <>
+      <table>
+        <thead>
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map(row => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map(cell => (
+                <td key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
       {isFetching ? <div>Loading...</div> : null}
-    </table>
+      {error ? <div>Error while loading data! {error.message}</div> : null}
+    </>
   )
 }
 

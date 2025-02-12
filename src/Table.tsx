@@ -4,10 +4,10 @@ import ThingsTable from './ThingsTable'
 
 
 function Table() {
-  const { status, data, error, isFetching } = useThings()
+  const { data, error, isFetching } = useThings()
 
   return (
-    <ThingsTable data={data} isFetching={isFetching} />
+    <ThingsTable data={data} isFetching={isFetching} error={error} />
   )
 }
 
