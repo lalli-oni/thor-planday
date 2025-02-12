@@ -4,18 +4,19 @@ import { Thing } from "./api";
 
 export interface ThingsTableProps {
   data?: Array<Thing>;
+  isFetching: boolean;
 }
 
 
 function ThingsTable(props: ThingsTableProps) {
-  const { data } = props
+  const { data, isFetching } = props
   const thingsData = data !== undefined ? data : []
   const columnHelper = createColumnHelper<Thing>()
 
   const columnDefinitions = [
     columnHelper.accessor('description', {
       header: () => (<span>Description</span>),
-      cell: info => info.getValue()
+      cell: info => info.renderValue()
     }),
     columnHelper.accessor('imagePath', {
       header: () => (<span>Image</span>),
@@ -58,6 +59,7 @@ function ThingsTable(props: ThingsTableProps) {
           </tr>
         ))}
       </tbody>
+      {isFetching ? <div>Loading...</div> : null}
     </table>
   )
 }
