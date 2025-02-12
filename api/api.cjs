@@ -9,13 +9,22 @@ const data = require('./data.json')
 app.use(cors())
 
 app.get('/', (req, res) => {
-  // Id/Title of the first item in page
+  // NOTE (LTJ): Cursor based data access
+  //  If you pass both start and end cursor, API only uses start cursor
   // TODO (LTJ): Handle invalid pagination values
   // TODO (LTJ): Controllable page size
-  const startCursor = req.params.cursor
+  const startCursor = req.query.startCursor
+  const endCursor = req.query.endCursor
+  
+  let startIndex, endIndex
+  if (endCursor && !startCursor) {
+    endIndex = data.findIndex((d) => d.title === endCursor)
+    startIndex = endIndex - 5
+  } else {
+    startIndex = startCursor ? data.findIndex((d) => d.title === startCursor) : 0
+    endIndex = startIndex + 5
+  }
 
-  const startIndex = Math.max(data.findIndex((d) => d.title === startCursor), 0)
-  const endIndex = startIndex + 5
   console.log(`${startIndex}-${endIndex}`)
   setTimeout(() => {
     res.send({
