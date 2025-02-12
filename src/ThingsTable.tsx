@@ -13,10 +13,6 @@ function ThingsTable(props: ThingsTableProps) {
   const columnHelper = createColumnHelper<Thing>()
 
   const columnDefinitions = [
-    columnHelper.accessor('title', {
-      header: () => (<span>Title</span>),
-      cell: info => info.getValue()
-    }),
     columnHelper.accessor('description', {
       header: () => (<span>Description</span>),
       cell: info => info.getValue()
