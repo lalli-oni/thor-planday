@@ -23,7 +23,7 @@ function ThingsTable(props: ThingsTableProps) {
     }),
     columnHelper.accessor('imagePath', {
       header: () => (<span>Image</span>),
-      cell: info => info.getValue()
+      cell: info => (<img src={info.getValue()} />)
     }),
   ]
 
