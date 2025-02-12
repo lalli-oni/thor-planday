@@ -9,6 +9,7 @@ export interface Thing {
 function useThings() {
   return useQuery({
     queryKey: ['thing'],
+    retry: false,
     queryFn: async (): Promise<Array<Thing>> => {
       const response = await fetch('http://localhost:3000')
       return await response.json()
