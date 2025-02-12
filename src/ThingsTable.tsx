@@ -37,6 +37,24 @@ function ThingsTable(props: ThingsTableProps) {
 
   return (
     <>
+      <div>
+        <input type="button"
+          disabled={onPaginationChange === undefined || !pagination.hasPreviousPage}
+          onClick={() => {
+              if (onPaginationChange) onPaginationChange("backward")
+          }}
+          value="Previous"
+        />
+        <input type="button"
+          disabled={onPaginationChange === undefined || !pagination.hasNextPage}
+          onClick={() => {
+              if (onPaginationChange) onPaginationChange("forward")
+          }}
+          value="Next"
+        />
+        <span>Showing {data?.payload?.length} rows of page {pagination.pageIndex}</span>
+        <span>{data?.meta?.previousCursor} {data?.meta?.nextCursor}</span>
+      </div>
       <table>
         <thead>
           {table.getHeaderGroups().map(headerGroup => (
