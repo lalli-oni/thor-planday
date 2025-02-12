@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
-export interface Response<T> {
+export interface QueryResponse<T> {
   payload: Array<T>;
   meta: {
     previousCursor?: string;

@@ -1,17 +1,21 @@
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 
-import { Thing } from "./api";
+import { type QueryResponse, type Thing } from "./api";
+
+export type FetchDirection = 'forward' | 'backward';
 
 export interface ThingsTableProps {
-  data?: Array<Thing>;
+  data?: QueryResponse<Thing>;
   isFetching: boolean;
   error: Error | null;
+  onPaginationChange?: (direction: FetchDirection) => void;
+  pagination: { hasNextPage: boolean; hasPreviousPage: boolean; pageIndex: number; };
 }
 
 
 function ThingsTable(props: ThingsTableProps) {
-  const { data, isFetching, error } = props
-  const thingsData = data !== undefined ? data : []
+  const { data, isFetching, error, onPaginationChange, pagination } = props
+  const thingsData = data?.payload ? data.payload : []
   const columnHelper = createColumnHelper<Thing>()
 
   const columnDefinitions = [
