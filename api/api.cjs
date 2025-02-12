@@ -15,10 +15,16 @@ app.get('/', (req, res) => {
   const startCursor = req.params.cursor
 
   const startIndex = Math.max(data.findIndex((d) => d.title === startCursor), 0)
-  const endIndex = startIndex + 10
+  const endIndex = startIndex + 5
   console.log(`${startIndex}-${endIndex}`)
   setTimeout(() => {
-    res.send(data.slice(startIndex, endIndex))
+    res.send({
+      payload: data.slice(startIndex, endIndex),
+      meta: {
+        previousCursor: startIndex > 0 ? data[startIndex - 1].title : null,
+        nextCursor: endIndex < data.length ? data[startIndex + 1].title : null,
+      }
+  })
   }, 3000)
 })
 

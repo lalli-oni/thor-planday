@@ -7,7 +7,7 @@ function Table() {
   const { data, error, isFetching } = useThings()
 
   return (
-    <ThingsTable data={data} isFetching={isFetching} error={error} />
+    <ThingsTable data={data?.payload} isFetching={isFetching} error={error} />
   )
 }
 
