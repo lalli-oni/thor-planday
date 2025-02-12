@@ -1,11 +1,13 @@
 import { useThings } from './api'
 
+import ThingsTable from './ThingsTable'
+
 
 function Table() {
   const { status, data, error, isFetching } = useThings()
 
   return (
-    <div>Placeholder</div>
+    <ThingsTable data={data} isFetching={isFetching} />
   )
 }
 
