@@ -104,6 +104,11 @@ function Table(props: ThingsTableProps) {
           : null}
         </ActionBar>
         <div>
+          {!isFetching && !error && !data?.payload?.length ? <div>no results</div> : null}
+          {isFetching ? <div>Loading...</div> : null}
+          {error ? <div>Error while loading data! {error.message}</div> : null}
+        </div>
+        <div>
           <span>{paginationInfo}</span>
         </div>
       </TopBar>
@@ -138,9 +143,6 @@ function Table(props: ThingsTableProps) {
           : null}
         </tbody>
       </table>
-      {!isFetching && !error && !data?.payload?.length ? <div>no results</div> : null}
-      {isFetching ? <div>Loading...</div> : null}
-      {error ? <div>Error while loading data! {error.message}</div> : null}
     </TableContainer>
   )
 }
