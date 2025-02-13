@@ -44,7 +44,7 @@ function AddPictureModal(props: AddPictureModalProps) {
       <InputsContainer>
         <label htmlFor="title-input">Title:</label>
         <input type="text" id="title-input" autoFocus onChange={(e) => setTitle(e.target.value)} disabled={props.isLoading} />
-        <label htmlFor="picture-input">Picture (valid picture id):</label>
+        <label htmlFor="picture-input">Picture (valid id, not full url):</label>
         <input type="text" id="picture-input" onChange={(e) => setPicture(e.target.value)} disabled={props.isLoading} />
       </InputsContainer>
       <Actions>
