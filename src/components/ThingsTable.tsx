@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 
-import ThingsTable, { type FetchDirection } from './Table'
+import ThingsTable, { type FetchDirection } from './common/organisms/Table'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 function Table() {

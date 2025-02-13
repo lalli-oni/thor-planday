@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-import Table from './components/Table'
+import Table from './components/common/organisms/Table'
 
 const queryClient = new QueryClient()
 
