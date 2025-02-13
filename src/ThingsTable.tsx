@@ -86,6 +86,7 @@ function ThingsTable(props: ThingsTableProps) {
           : null}
         </tbody>
       </table>
+      {!isFetching && !error ? <div>no results</div> : null}
       {isFetching ? <div>Loading...</div> : null}
       {error ? <div>Error while loading data! {error.message}</div> : null}
     </>
