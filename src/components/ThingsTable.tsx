@@ -100,7 +100,6 @@ function ThingsTable() {
         additionalControls={
           <TableButton key="add-picture"
             onClick={() => setShowAddPictureModal(true)}
-            
           >
             Add picture
           </TableButton>}
