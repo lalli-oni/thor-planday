@@ -13,5 +13,10 @@ export interface Thing {
 	imagePath: string;
 }
 
+export interface AddPictureMutationBody {
+  title: string;
+  picture: string;
+}
+
 // NOTE (LTJ): This file is now only type declaration for DTO
 //  But a suitable housing for facade query hooks
