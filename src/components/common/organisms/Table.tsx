@@ -48,8 +48,8 @@ const TableCell = styled.td`
   text-align: center;
 `
 
-function ThingsTable(props: ThingsTableProps) {
-  const { data, isFetching, error, onPaginationChange, pagination } = props
+function Table(props: ThingsTableProps) {
+  const { data, isFetching, error, onPaginationChange, pagination, additionalControls } = props
   const thingsData = data?.payload ? data.payload : []
   const columnHelper = createColumnHelper<Thing>()
 
@@ -136,4 +136,4 @@ function ThingsTable(props: ThingsTableProps) {
   )
 }
 
-export default ThingsTable
+export default Table

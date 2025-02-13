@@ -1,9 +1,9 @@
 import { useCallback, useMemo, useState } from 'react'
 
-import ThingsTable, { type FetchDirection } from './common/organisms/Table'
+import Table, { type FetchDirection } from './common/organisms/Table'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
-function Table() {
+function ThingsTable() {
   const [pageIndex, setPageIndex] = useState<number>(0)
   
   const {
@@ -55,7 +55,7 @@ function Table() {
   }, [pageIndex, hasPreviousPage, hasNextPage, data?.pages])
 
   return (
-    <ThingsTable
+    <Table
       data={data?.pages[pageIndex]}
       pagination={pagination}
       isFetching={isFetching}
@@ -65,4 +65,4 @@ function Table() {
   )
 }
 
-export default Table
+export default ThingsTable
