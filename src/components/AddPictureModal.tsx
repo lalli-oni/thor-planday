@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export interface AddPictureModalProps {
   onAddPicture: (title: string, picture: string) => void;
@@ -38,20 +38,31 @@ const Actions = styled.div`
   gap: 0.1rem;
 `
 
+const LoadingMessage = styled.div<{ $show: boolean; }>`
+  visibility: hidden;
+  text-align: center;
+
+  ${props => props.$show && css`
+    visibility: visible;
+  `}
+`
+
 function AddPictureModal(props: AddPictureModalProps) {
   const [title, setTitle] = useState<string>('')
   const [picture, setPicture] = useState<string>('')
   
   const validated = title?.length > 0 && picture?.length > 0
 
+  
+
   return (
     <Backdrop>
       <Modal>
         <InputsContainer>
           <label htmlFor="title-input">Title:</label>
-          <input type="text" id="title-input" autoFocus onChange={(e) => setTitle(e.target.value)} />
+          <input type="text" id="title-input" autoFocus onChange={(e) => setTitle(e.target.value)} disabled={props.isLoading} />
           <label htmlFor="picture-input">Picture:</label>
-          <input type="text" id="picture-input" onChange={(e) => setPicture(e.target.value)}/>
+          <input type="text" id="picture-input" onChange={(e) => setPicture(e.target.value)} disabled={props.isLoading} />
         </InputsContainer>
         <Actions>
           <input type="submit"
@@ -62,8 +73,9 @@ function AddPictureModal(props: AddPictureModalProps) {
             }}
             disabled={!validated || props.isLoading}
           />
-          <input type="button" value="Cancel" onClick={() => props.onClose()} />
+          <input type="button" value="Cancel" onClick={() => props.onClose()} disabled={props.isLoading}/>
         </Actions>
+        <LoadingMessage $show={props.isLoading}>Loading ...</LoadingMessage>
       </Modal>
     </Backdrop>
   )
