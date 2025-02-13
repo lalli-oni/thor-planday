@@ -7,6 +7,7 @@ export interface QueryResponse<T> {
 }
 
 export interface Thing {
+  id: number;
 	title: string;
 	description: string;
 	imagePath: string;

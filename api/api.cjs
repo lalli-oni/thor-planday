@@ -38,10 +38,10 @@ app.get('/', (req, res) => {
   let payload
 
   try {
-    payload = data.slice(startIndex, endIndex)
+    payload = data.map((d, i) => ({ ...d, id: i })).slice(startIndex, endIndex)
     setTimeout(() => {
       res.send({
-        payload: data.slice(startIndex, endIndex),
+        payload: payload,
         meta: {
           previousCursor: startIndex > 0 ? startIndex - 1 : null,
           nextCursor: endIndex < data.length ? endIndex : null,
