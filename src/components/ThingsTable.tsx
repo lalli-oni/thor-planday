@@ -1,6 +1,6 @@
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 
-import { type QueryResponse, type Thing } from "./api";
+import { type QueryResponse, type Thing } from "../api";
 
 export type FetchDirection = 'forward' | 'backward';
 
