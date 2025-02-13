@@ -98,7 +98,7 @@ function ThingsTable(props: ThingsTableProps) {
           <span>{paginationInfo}</span>
         </div>
       </TopBar>
-      <table>
+      <table tabIndex={0}>
         <thead>
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
