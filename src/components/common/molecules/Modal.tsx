@@ -1,5 +1,6 @@
 import { PropsWithChildren, useEffect } from "react";
 import styled from "styled-components";
+import Backdrop from "../atoms/Backdrop";
 
 const ModalContainer = styled.form`
   position: absolute;
@@ -28,9 +29,11 @@ function Modal({ onClose, children }: PropsWithChildren<ModalProps>) {
   },[onClose])
 
   return (
-    <ModalContainer>
-      {children}
-    </ModalContainer>
+    <Backdrop>
+      <ModalContainer>
+        {children}
+      </ModalContainer>
+    </Backdrop>
   )
 }
 
