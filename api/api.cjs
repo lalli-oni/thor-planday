@@ -13,28 +13,43 @@ app.get('/', (req, res) => {
   //  If you pass both start and end cursor, API only uses start cursor
   // TODO (LTJ): Handle invalid pagination values
   // TODO (LTJ): Controllable page size
-  const startCursor = req.query.startCursor
-  const endCursor = req.query.endCursor
+  const startCursor = parseInt(req.query.startCursor)
+  const endCursor = parseInt(req.query.endCursor)
+
+  if (startCursor === NaN || endCursor === NaN) {
+    // TODO (LTJ): Error responsse
+  }
   
   let startIndex, endIndex
   if (endCursor && !startCursor) {
-    endIndex = data.findIndex((d) => d.title === endCursor)
+    // BUG (LTJ): how about when endCursor < page size?
+    endIndex = startCursor
     startIndex = endIndex - 5
+  } else if (startCursor && !endCursor) {
+    startIndex = startCursor
+    endIndex = startIndex + 5
   } else {
-    startIndex = startCursor ? data.findIndex((d) => d.title === startCursor) : 0
+    startIndex = 0
     endIndex = startIndex + 5
   }
 
   console.log(`${startIndex}-${endIndex}`)
-  setTimeout(() => {
-    res.send({
-      payload: data.slice(startIndex, endIndex),
-      meta: {
-        previousCursor: startIndex > 0 ? data[startIndex - 1].title : null,
-        nextCursor: endIndex < data.length ? data[startIndex + 1].title : null,
-      }
-  })
-  }, 3000)
+
+  let payload
+
+  try {
+    payload = data.map((d, i) => ({ ...d, id: i })).slice(startIndex, endIndex)
+    setTimeout(() => {
+      res.send({
+        payload: payload,
+        meta: {
+          previousCursor: startIndex > 0 ? startIndex - 1 : null,
+          nextCursor: endIndex < data.length ? endIndex : null,
+        }
+    })}, 3000)
+  } catch (error) {
+    // TODO (LTJ): Error responsse
+  }
 })
 
 app.listen(port, () => {
