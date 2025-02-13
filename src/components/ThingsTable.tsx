@@ -25,7 +25,7 @@ function ThingsTable() {
     retry: false,
     initialPageParam: null,
     queryFn: async ({ pageParam, direction }) => {
-      const host = 'https://planday-api.vercel.app'
+      const host = import.meta.env.VITE_API_HOSTNAME
       let response
       if (!pageParam) {
         response = await fetch(host)
@@ -42,7 +42,7 @@ function ThingsTable() {
 
   const addPictureMutation = useMutation({
     mutationFn: (newPicture: AddPictureMutationBody) => {
-      return fetch('https://planday-api.vercel.app', {
+      return fetch(import.meta.env.VITE_API_HOSTNAME, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -95,13 +95,13 @@ function ThingsTable() {
         data={data?.pages[pageIndex]}
         pagination={pagination}
         isFetching={isFetching}
-        error={error}
+        error={error || addPictureMutation.error}
         onPaginationChange={onPaginationChange}
         additionalControls={
           <TableButton key="add-picture"
             onClick={() => setShowAddPictureModal(true)}
           >
-            Add picture
+            Add tile
           </TableButton>}
       />
     </>

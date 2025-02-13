@@ -1,5 +1,7 @@
 import { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+import Modal from "./common/molecules/Modal";
 
 export interface AddPictureModalProps {
   onAddPicture: (title: string, picture: string) => void;
@@ -7,25 +9,7 @@ export interface AddPictureModalProps {
   isLoading: boolean;
 }
 
-const Backdrop = styled.div`
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background-color: #80808099;
-  backdrop-filter: blur(1px);
-`
-
-const Modal = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  padding: 1rem;
-  background-color: var(--background-color);
-  border: 2px solid black;
-  border-radius: 0.3rem;
-`
-
-const Form = styled.div`
+const InputsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
@@ -38,31 +22,44 @@ const Actions = styled.div`
   gap: 0.1rem;
 `
 
+const LoadingMessage = styled.div<{ $show: boolean; }>`
+  visibility: hidden;
+  text-align: center;
+
+  ${props => props.$show && css`
+    visibility: visible;
+  `}
+`
+
 function AddPictureModal(props: AddPictureModalProps) {
   const [title, setTitle] = useState<string>('')
   const [picture, setPicture] = useState<string>('')
   
   const validated = title?.length > 0 && picture?.length > 0
 
+  
+
   return (
-    <Backdrop>
-      <Modal>
-        <Form>
-          <label htmlFor="title-input">Title:</label>
-          <input type="text" id="title-input" autoFocus onChange={(e) => setTitle(e.target.value)} />
-          <label htmlFor="picture-input">Picture:</label>
-          <input type="text" id="picture-input" onChange={(e) => setPicture(e.target.value)}/>
-        </Form>
-        <Actions>
-          <input type="button"
-            value="Add picture"
-            onClick={() => props.onAddPicture(title, picture)}
-            disabled={!validated || props.isLoading}
-          />
-          <input type="button" value="Cancel" onClick={() => props.onClose()} />
-        </Actions>
-      </Modal>
-    </Backdrop>
+    <Modal onClose={() => { if (!props.isLoading) props.onClose() }}>
+      <InputsContainer>
+        <label htmlFor="title-input">Title:</label>
+        <input type="text" id="title-input" autoFocus onChange={(e) => setTitle(e.target.value)} disabled={props.isLoading} />
+        <label htmlFor="picture-input">Picture (valid id, not full url):</label>
+        <input type="text" id="picture-input" onChange={(e) => setPicture(e.target.value)} disabled={props.isLoading} />
+      </InputsContainer>
+      <Actions>
+        <input type="submit"
+          value="Add picture"
+          onClick={(e) => {
+            e.preventDefault()
+            props.onAddPicture(title, picture)
+          }}
+          disabled={!validated || props.isLoading}
+        />
+        <input type="button" value="Cancel" onClick={() => props.onClose()} disabled={props.isLoading}/>
+      </Actions>
+      <LoadingMessage $show={props.isLoading}>Loading ...</LoadingMessage>
+    </Modal>
   )
 }
 

@@ -81,7 +81,7 @@ function Table(props: ThingsTableProps) {
       <TopBar>
         <ActionBar>
           <TableButton
-            disabled={onPaginationChange === undefined || !pagination.hasPreviousPage}
+            disabled={onPaginationChange === undefined || !pagination.hasPreviousPage || isFetching}
             onClick={() => {
                 if (onPaginationChange) onPaginationChange("backward")
             }}
@@ -89,7 +89,7 @@ function Table(props: ThingsTableProps) {
             Previous
           </TableButton>
           <TableButton
-            disabled={onPaginationChange === undefined || !pagination.hasNextPage}
+            disabled={onPaginationChange === undefined || !pagination.hasNextPage || isFetching}
             onClick={() => {
                 if (onPaginationChange) onPaginationChange("forward")
             }}
@@ -103,6 +103,11 @@ function Table(props: ThingsTableProps) {
             </>
           : null}
         </ActionBar>
+        <div>
+          {!isFetching && !error && !data?.payload?.length ? <div>no results</div> : null}
+          {isFetching ? <div>Loading...</div> : null}
+          {error ? <div>Error while loading data! {error.message}</div> : null}
+        </div>
         <div>
           <span>{paginationInfo}</span>
         </div>
@@ -138,9 +143,6 @@ function Table(props: ThingsTableProps) {
           : null}
         </tbody>
       </table>
-      {!isFetching && !error && !data?.payload?.length ? <div>no results</div> : null}
-      {isFetching ? <div>Loading...</div> : null}
-      {error ? <div>Error while loading data! {error.message}</div> : null}
     </TableContainer>
   )
 }

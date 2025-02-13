@@ -1,3 +1,28 @@
+# Larus Thor Planday assignment
+# Getting started
+Open a new terminal in project root
+## 1. Start the API
+```bash
+cd api
+npm install
+node api/index.ts
+```
+
+## 2. Add environment variable
+Create `.env.local` in project root. Add the following to the file:
+```
+VITE_API_HOSTNAME=http://localhost:3000
+```
+
+## 3. Start the client
+Open a new terminal in project root
+```bash
+npm install
+npm run dev
+```
+Your default browser should open a tab/window with the application running.
+If it doesn't then I have found that sobbing and threatening any gods you remember the names of solves the issue momentarily.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
