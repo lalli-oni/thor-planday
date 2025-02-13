@@ -25,7 +25,7 @@ function ThingsTable() {
     retry: false,
     initialPageParam: null,
     queryFn: async ({ pageParam, direction }) => {
-      const host = 'http://localhost:3000'
+      const host = 'https://planday-api.vercel.app'
       let response
       if (!pageParam) {
         response = await fetch(host)
@@ -42,7 +42,7 @@ function ThingsTable() {
 
   const addPictureMutation = useMutation({
     mutationFn: (newPicture: AddPictureMutationBody) => {
-      return fetch('http://localhost:3000', {
+      return fetch('https://planday-api.vercel.app', {
         headers: {
           "Content-Type": "application/json",
         },
