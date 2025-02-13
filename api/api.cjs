@@ -1,12 +1,16 @@
 const express = require('express')
-const cors = require('cors')
 
 const app = express()
 const port = 3000
 
-const data = require('./data.json')
+// Middleware
+const bodyParser = require('body-parser')
+const cors = require('cors')
+
+let data = [...require('./data.json')]
 
 app.use(cors())
+app.use(bodyParser.json()) 
 
 app.get('/', (req, res) => {
   // NOTE (LTJ): Cursor based data access
@@ -50,6 +54,17 @@ app.get('/', (req, res) => {
   } catch (error) {
     // TODO (LTJ): Error responsse
   }
+})
+
+app.post('/', (req, res) => {
+  console.log('post request received')
+  console.log(req.body)
+  const imagePath = `https://images.unsplash.com/photo-${req.body.image}?ixlib=rb-1.2.1&amp;ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;auto=format&amp;fit=crop&amp;w=1790&amp;q=80`
+  data = [...data, { title: req.body.title, description: req.body.title, imagePath: imagePath }]
+  setTimeout(() => {
+    res.send(req.body)
+    console.log('done')
+  }, 3000);
 })
 
 app.listen(port, () => {
