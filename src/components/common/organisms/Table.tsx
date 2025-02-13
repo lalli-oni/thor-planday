@@ -94,6 +94,7 @@ function Table(props: ThingsTableProps) {
             value="Next"
           />
         </ActionBar>
+        {additionalControls}
         <div>
           <span>{paginationInfo}</span>
         </div>
