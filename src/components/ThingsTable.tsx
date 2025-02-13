@@ -57,6 +57,11 @@ function ThingsTable(props: ThingsTableProps) {
     getCoreRowModel: getCoreRowModel(),
   })
 
+  const pageReady = !isFetching && !error
+  const pageEdges = [data?.payload[0]?.id, data?.payload[data?.payload?.length - 1]?.id]
+  const edgeText = pageEdges.every(d => d !== undefined) ? `(${pageEdges[0] + 1}/${pageEdges[1] + 1})` : ''
+  const paginationInfo = pageReady ? `${edgeText} page ${pagination.pageIndex + 1}` : '. . .'
+
   return (
     <TableContainer>
       <TopBar>
@@ -77,7 +82,7 @@ function ThingsTable(props: ThingsTableProps) {
           />
         </ActionBar>
         <div>
-          <span>{!isFetching && !error ? `${data?.payload?.length} rows of page ${pagination.pageIndex + 1}` : '. . .'}</span>
+          <span>{paginationInfo}</span>
         </div>
       </TopBar>
       <table>
