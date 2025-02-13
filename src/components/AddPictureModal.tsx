@@ -4,6 +4,7 @@ import styled from "styled-components";
 export interface AddPictureModalProps {
   onAddPicture: (title: string, picture: string) => void;
   onClose: () => void;
+  isLoading: boolean;
 }
 
 const Backdrop = styled.div`
@@ -56,9 +57,9 @@ function AddPictureModal(props: AddPictureModalProps) {
           <input type="button"
             value="Add picture"
             onClick={() => props.onAddPicture(title, picture)}
-            disabled={!validated}
+            disabled={!validated || props.isLoading}
           />
-          <input type="button" value="Cancel" />
+          <input type="button" value="Cancel" onClick={() => props.onClose()} />
         </Actions>
       </Modal>
     </Backdrop>
