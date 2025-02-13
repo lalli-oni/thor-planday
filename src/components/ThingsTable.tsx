@@ -31,8 +31,21 @@ const ActionBar = styled.div`
   gap: 0.5rem;
 `
 
+const Button = styled.input.attrs({ type: 'submit' })`
+  padding: 0.3rem;
+`
+
 const Image = styled.img`
   max-height: 10rem;
+`
+
+const TableHeader = styled.th`
+  width: 20rem;
+`
+
+const TableCell = styled.td`
+  width: 20rem;
+  text-align: center;
 `
 
 function ThingsTable(props: ThingsTableProps) {
@@ -66,14 +79,14 @@ function ThingsTable(props: ThingsTableProps) {
     <TableContainer>
       <TopBar>
         <ActionBar>
-          <input type="button"
+          <Button type="button"
             disabled={onPaginationChange === undefined || !pagination.hasPreviousPage}
             onClick={() => {
                 if (onPaginationChange) onPaginationChange("backward")
             }}
             value="Previous"
           />
-          <input type="button"
+          <Button type="button"
             disabled={onPaginationChange === undefined || !pagination.hasNextPage}
             onClick={() => {
                 if (onPaginationChange) onPaginationChange("forward")
@@ -90,14 +103,14 @@ function ThingsTable(props: ThingsTableProps) {
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => (
-                <th key={header.id}>
+                <TableHeader key={header.id}>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
                         header.getContext()
                       )}
-                </th>
+                </TableHeader>
               ))}
             </tr>
           ))}
@@ -105,11 +118,11 @@ function ThingsTable(props: ThingsTableProps) {
         <tbody>
           {data?.payload?.length ?
             table.getRowModel().rows.map(row => (
-              <tr key={row.id}>
+              <tr tabIndex={0} key={row.id}>
                 {row.getVisibleCells().map(cell => (
-                  <td key={cell.id}>
+                  <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
+                  </TableCell>
                 ))}
               </tr>
             ))
