@@ -11,7 +11,7 @@ export interface ThingsTableProps {
   error: Error | null;
   onPaginationChange?: (direction: FetchDirection) => void;
   pagination: { hasNextPage: boolean; hasPreviousPage: boolean; pageIndex: number; };
-  additionalControls: typeof TableButton;
+  additionalControls: React.ReactElement;
 }
 
 const TableContainer = styled.div`
