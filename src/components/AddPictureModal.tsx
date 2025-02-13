@@ -15,7 +15,7 @@ const Backdrop = styled.div`
   backdrop-filter: blur(1px);
 `
 
-const Modal = styled.div`
+const Modal = styled.form`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -25,7 +25,7 @@ const Modal = styled.div`
   border-radius: 0.3rem;
 `
 
-const Form = styled.div`
+const InputsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
@@ -47,16 +47,19 @@ function AddPictureModal(props: AddPictureModalProps) {
   return (
     <Backdrop>
       <Modal>
-        <Form>
+        <InputsContainer>
           <label htmlFor="title-input">Title:</label>
           <input type="text" id="title-input" autoFocus onChange={(e) => setTitle(e.target.value)} />
           <label htmlFor="picture-input">Picture:</label>
           <input type="text" id="picture-input" onChange={(e) => setPicture(e.target.value)}/>
-        </Form>
+        </InputsContainer>
         <Actions>
-          <input type="button"
+          <input type="submit"
             value="Add picture"
-            onClick={() => props.onAddPicture(title, picture)}
+            onClick={(e) => {
+              e.preventDefault()
+              props.onAddPicture(title, picture)
+            }}
             disabled={!validated || props.isLoading}
           />
           <input type="button" value="Cancel" onClick={() => props.onClose()} />
