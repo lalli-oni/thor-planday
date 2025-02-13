@@ -48,8 +48,8 @@ function Table() {
 
   const pagination = useMemo(() => {
     return {
-      hasNextPage: hasNextPage || data?.pages[pageIndex + 1],
-      hasPreviousPage: hasPreviousPage || data?.pages[pageIndex - 1],
+      hasNextPage: hasNextPage || data?.pages[pageIndex + 1] !== undefined,
+      hasPreviousPage: hasPreviousPage || data?.pages[pageIndex - 1] !== undefined,
       pageIndex
     }
   }, [pageIndex, hasPreviousPage, hasNextPage, data?.pages])
