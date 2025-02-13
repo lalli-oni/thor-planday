@@ -11,6 +11,7 @@ export interface ThingsTableProps {
   error: Error | null;
   onPaginationChange?: (direction: FetchDirection) => void;
   pagination: { hasNextPage: boolean; hasPreviousPage: boolean; pageIndex: number; };
+  additionalControls: typeof TableButton;
 }
 
 const TableContainer = styled.div`
@@ -31,7 +32,7 @@ const ActionBar = styled.div`
   gap: 0.5rem;
 `
 
-const Button = styled.input.attrs({ type: 'submit' })`
+export const TableButton = styled.button`
   padding: 0.3rem;
 `
 
@@ -79,22 +80,29 @@ function Table(props: ThingsTableProps) {
     <TableContainer>
       <TopBar>
         <ActionBar>
-          <Button type="button"
+          <TableButton
             disabled={onPaginationChange === undefined || !pagination.hasPreviousPage}
             onClick={() => {
                 if (onPaginationChange) onPaginationChange("backward")
             }}
-            value="Previous"
-          />
-          <Button type="button"
+          >
+            Previous
+          </TableButton>
+          <TableButton
             disabled={onPaginationChange === undefined || !pagination.hasNextPage}
             onClick={() => {
                 if (onPaginationChange) onPaginationChange("forward")
             }}
-            value="Next"
-          />
+          >
+            Next
+          </TableButton>
+          {additionalControls ?
+            <>
+              <div style={{ border: '1px solid gray' }} />
+              {additionalControls}
+            </>
+          : null}
         </ActionBar>
-        {additionalControls}
         <div>
           <span>{paginationInfo}</span>
         </div>
