@@ -1,11 +1,17 @@
 import { useCallback, useMemo, useState } from 'react'
 
-import Table, { type FetchDirection } from './common/organisms/Table'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import Table, { TableButton, type FetchDirection } from './common/organisms/Table'
+import AddPictureModal from './AddPictureModal'
+
+import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { AddPictureMutationBody } from '../api'
 
 function ThingsTable() {
   const [pageIndex, setPageIndex] = useState<number>(0)
-  
+  const [showAddPictureModal, setShowAddPictureModal] = useState<boolean>(false)
+
+  const queryClient = useQueryClient()
+
   const {
     data,
     error,
@@ -34,6 +40,18 @@ function ThingsTable() {
     getPreviousPageParam: (firstPage) => firstPage.meta.previousCursor,
   })
 
+  const addPictureMutation = useMutation({
+    mutationFn: (newPicture: AddPictureMutationBody) => {
+      return fetch('http://localhost:3000', {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: 'POST',
+        body: JSON.stringify(newPicture)
+      })
+    }
+  })
+
   const onPaginationChange = useCallback((direction: FetchDirection) => {
     if (direction === 'forward') {
       const newIndex = pageIndex + 1
@@ -54,14 +72,40 @@ function ThingsTable() {
     }
   }, [pageIndex, hasPreviousPage, hasNextPage, data?.pages])
 
+  const onAddPicture = async (title: string, picture: string) => {
+    try {
+      await addPictureMutation.mutateAsync({ title, picture })
+      queryClient.invalidateQueries({ queryKey: 'things' })
+    } catch {
+      // TODO (LTJ): Error handling
+    }
+    setShowAddPictureModal(false)
+  }
+
   return (
-    <Table
-      data={data?.pages[pageIndex]}
-      pagination={pagination}
-      isFetching={isFetching}
-      error={error}
-      onPaginationChange={onPaginationChange}
-    />
+    <>
+      {showAddPictureModal ?
+        <AddPictureModal
+          isLoading={!addPictureMutation.isIdle && !addPictureMutation.isSuccess}
+          onAddPicture={onAddPicture}
+          onClose={() => setShowAddPictureModal(false)}
+        />
+      : null}
+      <Table
+        data={data?.pages[pageIndex]}
+        pagination={pagination}
+        isFetching={isFetching}
+        error={error}
+        onPaginationChange={onPaginationChange}
+        additionalControls={
+          <TableButton key="add-picture"
+            onClick={() => setShowAddPictureModal(true)}
+            
+          >
+            Add picture
+          </TableButton>}
+      />
+    </>
   )
 }
 
