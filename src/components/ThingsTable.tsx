@@ -1,10 +1,13 @@
 import { useCallback, useMemo, useState } from 'react'
 
-import Table, { type FetchDirection } from './common/organisms/Table'
+import Table, { TableButton, type FetchDirection } from './common/organisms/Table'
+import AddPictureModal from './AddPictureModal'
+
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 function ThingsTable() {
   const [pageIndex, setPageIndex] = useState<number>(0)
+  const [showAddPictureModal, setShowAddPictureModal] = useState<boolean>(false)
   
   const {
     data,
@@ -54,14 +57,29 @@ function ThingsTable() {
     }
   }, [pageIndex, hasPreviousPage, hasNextPage, data?.pages])
 
+  const onAddPicture = (title: string, picture: string) => {
+    console.log(`${title} - ${picture}`)
+    setShowAddPictureModal(false)
+  }
+
   return (
-    <Table
-      data={data?.pages[pageIndex]}
-      pagination={pagination}
-      isFetching={isFetching}
-      error={error}
-      onPaginationChange={onPaginationChange}
-    />
+    <>
+      {showAddPictureModal ? <AddPictureModal onAddPicture={onAddPicture} onClose={() => setShowAddPictureModal(false)} /> : null}
+      <Table
+        data={data?.pages[pageIndex]}
+        pagination={pagination}
+        isFetching={isFetching}
+        error={error}
+        onPaginationChange={onPaginationChange}
+        additionalControls={
+          <TableButton key="add-picture"
+            onClick={() => setShowAddPictureModal(true)}
+            
+          >
+            Add picture
+          </TableButton>}
+      />
+    </>
   )
 }
 
